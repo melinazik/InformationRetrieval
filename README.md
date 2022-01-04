@@ -1,5 +1,5 @@
 # Information Retrieval Project 
-##University Project on Information Retrieval.
+## University Project on Information Retrieval.
 
 Application of information retrieval techniques on speeches of the Greek Parliament. 
 
