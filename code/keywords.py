@@ -2,19 +2,20 @@
 import time
 import pandas as pd
 import spacy
+import string
+import csv
 from string import punctuation
 from collections import Counter
 import unicodedata as ud
 
-import nltk
-from nltk.corpus import stopwords
+# import nltk
+# from nltk.corpus import stopwords
 
-nltk.download('stopwords')
-greek_stopwords = stopwords.words('greek')
+# nltk.download('stopwords', quiet=True)
+# stop_words = stopwords.words('greek')
 # print (greek_stopwords)
 
 dataPath = '../data/Proceedings_500.csv'
-dataSize = 500
 
 # start = time.time()
 # df = pd.read_csv(dataPath)
@@ -25,6 +26,10 @@ dataSize = 500
 # print("Read csv without chunks: ",(end-start),"sec")
 # df = pd.read_csv(dataPath)
 # print(df)
+
+def remove_stopwords():
+    return
+
 
 def extract_keywords(nlp, sequence, stop_words, special_tags: list = None):
     """ Takes a Spacy core language model,
@@ -61,8 +66,10 @@ def extract_keywords(nlp, sequence, stop_words, special_tags: list = None):
         for token in doc:
             if token.text in tags:
                 result.append(token.text)
+
     for chunk in doc.noun_chunks:
         final_chunk = ""
+        
         for token in chunk:
             if token.lemma_ in stop_words or token.text in punctuation:  # REMOVE STOPWORDS AND PUNCTUATION SYMBOLS
                 continue
@@ -84,16 +91,56 @@ def main():
     start = time.time()
     nlp = spacy.load("el_core_news_sm")
     speeches = []
-    df = pd.read_csv(dataPath, delimiter=',')
-    number_of_rows = df.shape[0]
+
     stop_words = nlp.Defaults.stop_words
     stop_words.update({"κ.", "κύριος", "κυρία", "λόγο"})
 
+    df = pd.read_csv(dataPath)
+    number_of_rows = df.shape[0]
+
+    header = ['member_name', 'sitting_date', 'parliamentary_period', 'parliamentary_session', 'political_party', 'government', 'roles', 'member_gender', 'speech']
+    data = []
+    
+
+
+    for s in range(number_of_rows):
+        data_row = []   
+        
+        data_row.append(df['member_name'][s])
+        data_row.append(df['sitting_date'][s])
+        data_row.append(df['parliamentary_period'][s])
+        data_row.append(df['parliamentary_session'][s])
+        data_row.append(df['political_party'][s])
+        data_row.append(df['government'][s])
+        data_row.append(df['roles'][s])
+        data_row.append(df['member_gender'][s])
+
+        new_speech = df['speech'][s].translate(str.maketrans(' ', ' ', string.punctuation))
+    
+        for word in new_speech.split(' '):
+            if word in stop_words:
+                new_speech = new_speech.replace(" " + word + " ", " ")
+
+        data_row.append(new_speech)
+        data.append(data_row)
+
+    # print(data)
+    with open('../data/Proceedings_Processed.csv', 'w', encoding="utf-8", newline='') as f:
+        writer = csv.writer(f)
+
+        # write the header
+        writer.writerow(header)
+
+        # write multiple rows
+        writer.writerows(data)
+
+
     choice = input('Εύρεση keywords, α)Ανα ομιλία, β)Ανά βουλευτή, γ)Ανα κόμμα  ')
     if choice == 'α':
-        number_of_speech = int(input('Δώσε αριθμό ομιλίας, μπορεί να είναι απο το 0-' + str(number_of_rows-1)))
+        number_of_speech = int(input('Δώσε αριθμό ομιλίας, μπορεί να είναι απο το 0-' + str(number_of_rows-1) + ' '))
         if 0 <= number_of_speech < number_of_rows:
             speeches.append(df['speech'][number_of_speech])
+
     elif choice == 'β':
         member_name = input('Δώσε όνομα βουλευτή ')
         member_name = member_name.lower()
@@ -128,4 +175,4 @@ def main():
     end = time.time()
     print("Time", end-start)
 
-# main()
+main()
