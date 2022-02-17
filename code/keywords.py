@@ -6,6 +6,13 @@ from string import punctuation
 from collections import Counter
 import unicodedata as ud
 
+import nltk
+from nltk.corpus import stopwords
+
+nltk.download('stopwords')
+greek_stopwords = stopwords.words('greek')
+# print (greek_stopwords)
+
 dataPath = '../data/Proceedings_500.csv'
 dataSize = 500
 
@@ -18,7 +25,6 @@ dataSize = 500
 # print("Read csv without chunks: ",(end-start),"sec")
 # df = pd.read_csv(dataPath)
 # print(df)
-
 
 def extract_keywords(nlp, sequence, stop_words, special_tags: list = None):
     """ Takes a Spacy core language model,
@@ -122,4 +128,4 @@ def main():
     end = time.time()
     print("Time", end-start)
 
-main()
+# main()
