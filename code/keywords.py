@@ -8,12 +8,6 @@ from string import punctuation
 from collections import Counter
 import unicodedata as ud
 
-# import nltk
-# from nltk.corpus import stopwords
-
-# nltk.download('stopwords', quiet=True)
-# stop_words = stopwords.words('greek')
-# print (greek_stopwords)
 
 dataPath = '../data/Proceedings_500.csv'
 
