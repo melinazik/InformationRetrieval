@@ -28,15 +28,30 @@ dataPath = '../data/Proceedings_500.csv'
 # print(df)
 
 def remove_stopwords(df, stop_words):
+    """ Removes stopwords and punctuation
+    from all the speeches in the csv file
+    given.
+
+    Stores the new format of the speeches
+    in a new csv file called "Proceedings_Processed.csv".
+
+    Arguments:
+        df : the csv object
+        stop_words : list of stopwords
+
+    """
     
     number_of_rows = df.shape[0]
 
+    # set header of new csv file
     header = ['member_name', 'sitting_date', 'parliamentary_period', 'parliamentary_session', 'political_party', 'government', 'roles', 'member_gender', 'speech']
-    data = []
     
-
+    data = []
 
     for s in range(number_of_rows):
+        
+        # create a list with all the elements in
+        # column of a row of the csv file
         data_row = []   
         
         data_row.append(df['member_name'][s])
@@ -48,8 +63,10 @@ def remove_stopwords(df, stop_words):
         data_row.append(df['roles'][s])
         data_row.append(df['member_gender'][s])
 
+        #  replace punctuation with space
         new_speech = df['speech'][s].translate(str.maketrans(' ', ' ', string.punctuation))
-    
+
+        # replace stopwords with space
         for word in new_speech.split(' '):
             if word in stop_words:
                 new_speech = new_speech.replace(" " + word + " ", " ")
@@ -57,14 +74,10 @@ def remove_stopwords(df, stop_words):
         data_row.append(new_speech)
         data.append(data_row)
 
-    # print(data)
+    # store the new data in a new csv file
     with open('../data/Proceedings_Processed.csv', 'w', encoding="utf-8", newline='') as f:
         writer = csv.writer(f)
-
-        # write the header
         writer.writerow(header)
-
-        # write multiple rows
         writer.writerows(data)
 
 
