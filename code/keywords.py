@@ -27,8 +27,45 @@ dataPath = '../data/Proceedings_500.csv'
 # df = pd.read_csv(dataPath)
 # print(df)
 
-def remove_stopwords():
-    return
+def remove_stopwords(df, stop_words):
+    
+    number_of_rows = df.shape[0]
+
+    header = ['member_name', 'sitting_date', 'parliamentary_period', 'parliamentary_session', 'political_party', 'government', 'roles', 'member_gender', 'speech']
+    data = []
+    
+
+
+    for s in range(number_of_rows):
+        data_row = []   
+        
+        data_row.append(df['member_name'][s])
+        data_row.append(df['sitting_date'][s])
+        data_row.append(df['parliamentary_period'][s])
+        data_row.append(df['parliamentary_session'][s])
+        data_row.append(df['political_party'][s])
+        data_row.append(df['government'][s])
+        data_row.append(df['roles'][s])
+        data_row.append(df['member_gender'][s])
+
+        new_speech = df['speech'][s].translate(str.maketrans(' ', ' ', string.punctuation))
+    
+        for word in new_speech.split(' '):
+            if word in stop_words:
+                new_speech = new_speech.replace(" " + word + " ", " ")
+
+        data_row.append(new_speech)
+        data.append(data_row)
+
+    # print(data)
+    with open('../data/Proceedings_Processed.csv', 'w', encoding="utf-8", newline='') as f:
+        writer = csv.writer(f)
+
+        # write the header
+        writer.writerow(header)
+
+        # write multiple rows
+        writer.writerows(data)
 
 
 def extract_keywords(nlp, sequence, stop_words, special_tags: list = None):
@@ -92,48 +129,16 @@ def main():
     nlp = spacy.load("el_core_news_sm")
     speeches = []
 
+    df = pd.read_csv(dataPath)
+
     stop_words = nlp.Defaults.stop_words
     stop_words.update({"κ.", "κύριος", "κυρία", "λόγο"})
 
-    df = pd.read_csv(dataPath)
+    remove_stopwords(df, stop_words)
+
+    df = pd.read_csv('../data/Proceedings_Processed.csv')
     number_of_rows = df.shape[0]
-
-    header = ['member_name', 'sitting_date', 'parliamentary_period', 'parliamentary_session', 'political_party', 'government', 'roles', 'member_gender', 'speech']
-    data = []
     
-
-
-    for s in range(number_of_rows):
-        data_row = []   
-        
-        data_row.append(df['member_name'][s])
-        data_row.append(df['sitting_date'][s])
-        data_row.append(df['parliamentary_period'][s])
-        data_row.append(df['parliamentary_session'][s])
-        data_row.append(df['political_party'][s])
-        data_row.append(df['government'][s])
-        data_row.append(df['roles'][s])
-        data_row.append(df['member_gender'][s])
-
-        new_speech = df['speech'][s].translate(str.maketrans(' ', ' ', string.punctuation))
-    
-        for word in new_speech.split(' '):
-            if word in stop_words:
-                new_speech = new_speech.replace(" " + word + " ", " ")
-
-        data_row.append(new_speech)
-        data.append(data_row)
-
-    # print(data)
-    with open('../data/Proceedings_Processed.csv', 'w', encoding="utf-8", newline='') as f:
-        writer = csv.writer(f)
-
-        # write the header
-        writer.writerow(header)
-
-        # write multiple rows
-        writer.writerows(data)
-
 
     choice = input('Εύρεση keywords, α)Ανα ομιλία, β)Ανά βουλευτή, γ)Ανα κόμμα  ')
     if choice == 'α':
