@@ -46,7 +46,7 @@ def keep_noun_propn_adj(nlp, speech):
         speech: a speech stored in a string
 
     Returns: the nouns, proper nouns and
-    adjectives of a speech
+    adjectives of a speech stemmed.
 
     """
 
@@ -61,12 +61,12 @@ def keep_noun_propn_adj(nlp, speech):
     return new_speech
 
 
-def preprocessing():  # TODO steaming!
+def preprocessing():
     """ Removes stopwords and punctuation,
    lower case every word, keeps only
    nouns, proper nouns and adjectives
-   from all the speeches in the csv file
-   given.
+   stemmed from all the speeches in the
+   csv file given.
 
    Stores the new format of the speeches
    in a new csv file called "Proceedings_Processed.csv".
@@ -74,7 +74,7 @@ def preprocessing():  # TODO steaming!
 
    """
 
-    dataPath = '../data/Proceedings_10000.csv'
+    dataPath = '../data/Proceedings_1989_2020.csv'
     nlp = spacy.load("el_core_news_sm")
 
     df = pd.read_csv(dataPath)
@@ -111,17 +111,15 @@ def preprocessing():  # TODO steaming!
         # lower
         new_speech = new_speech.lower()
 
-        # keep only nouns, adjectives, proper nouns
+        # keep only nouns, adjectives, proper nouns and do stemming
         new_speech = keep_noun_propn_adj(nlp, new_speech)
 
         data_row.append(new_speech)
         data.append(data_row)
 
     # store the new data in a new csv file
-    with open('../data/Proceedings_100000_Processed.csv', 'w', encoding="utf-8", newline='') as f:
+    with open('../data/Proceedings_1989_2020_Processed.csv', 'w', encoding="utf-8", newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         writer.writerows(data)
 
-
-preprocessing()
