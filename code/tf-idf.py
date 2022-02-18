@@ -6,7 +6,7 @@ import heapq
 import time
 
 
-dataPath = '../data/Proceedings_100000_Processed.csv'
+dataPath = '../data/Proceedings_1989_2020_Processed.csv'
 
 
 class Member:
@@ -30,7 +30,7 @@ def main():
     number_of_rows = df.shape[0]
     members = []
     members_names = []
-    start = time.time()
+    #start = time.time()
     for i in range(number_of_rows):
         name = str(df['member_name'][i])
         party = str(df['political_party'][i])
@@ -43,8 +43,8 @@ def main():
         if not found:
             members.append(Member(name, party, speech))
             members_names.append(name)
-    end = time.time()
-    print("Members found", end-start)
+    #end = time.time()
+    #print("Members found", end-start)
     # here we define our document collection
     # this is an array of strings
 
@@ -57,9 +57,7 @@ def main():
     tfidf_matrix = tfidf_vectorizer.fit_transform(documents)
 
     # define the doc-doc similarity matrix based on the cosine distance
-    print("This is the doc-doc similarity matrix :")
     ddsim_matrix = cosine_similarity(tfidf_matrix[:], tfidf_matrix)
-    print(ddsim_matrix)
 
     heap = []
     k = 5
