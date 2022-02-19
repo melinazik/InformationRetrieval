@@ -79,7 +79,6 @@ def preprocessing():
 
     df = pd.read_csv(dataPath)
     number_of_rows = df.shape[0]
-    print(number_of_rows)
 
     # set header of new csv file
     header = ['member_name', 'sitting_date', 'parliamentary_period', 'parliamentary_session', 'political_party',

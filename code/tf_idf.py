@@ -6,9 +6,6 @@ import heapq
 import time
 
 
-dataPath = '../data/Proceedings_1989_2020_Processed.csv'
-
-
 class Member:
     def __init__(self, name, party, speech):
         self.name = name
@@ -25,7 +22,7 @@ class Member:
         print("Name", self.name, "Party", self.party, "Speeches", len(self.speeches))
 
 
-def main():
+def main(dataPath):
     df = pd.read_csv(dataPath)
     number_of_rows = df.shape[0]
     members = []
@@ -80,6 +77,5 @@ def main():
     print("", end-start)
 
 
-main()
 
 
