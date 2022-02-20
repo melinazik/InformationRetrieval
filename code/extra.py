@@ -4,7 +4,7 @@ import keywords
 from pprint import pprint
 
 # dataPath = '../data/Proceedings_Processed.csv'
-dataPath = '../data/Proceedings_1989_2020_Processed.csv'
+# dataPath = '../data/Proceedings_1989_2020_Processed.csv'
 
 
 def main(dataPath):
@@ -48,4 +48,4 @@ def main(dataPath):
     # # printing result
     # print(len(set(min_speech_keywords) & set(max_speech_keywords)))
 
-main(dataPath)
+# main(dataPath)

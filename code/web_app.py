@@ -12,8 +12,10 @@ dataPath = '../data/Proceedings_1989_2020_Processed.csv'
 def webapp_main():
     option_keywords = 'Σημαντικότερες λέξεις κλειδιά'
     option_tf_idf = 'Τop-k ζεύγη με τον υψηλότερο βαθμό ομοιότητας'
-    option_lsi = 'Σημαντικότερες θεματικές περιοχές'
+    option_lsi = 'Σημαντικότερες θεματικές περιοχές (LSI)'
+
     mode = radio("Αναζήτηση ", options=[option_keywords, option_tf_idf , option_lsi, '?'])
+    
     if mode == option_keywords:
         keywords.main(dataPath)
     elif mode == option_tf_idf:
