@@ -13,8 +13,9 @@ def webapp_main():
     option_keywords = 'Σημαντικότερες λέξεις κλειδιά'
     option_tf_idf = 'Τop-k ζεύγη με τον υψηλότερο βαθμό ομοιότητας'
     option_lsi = 'Σημαντικότερες θεματικές περιοχές (LSI)'
+    option_extra = 'Ομοιότητες μεταξύ θεματικών περιοχών'
 
-    mode = radio("Αναζήτηση ", options=[option_keywords, option_tf_idf , option_lsi, '?'])
+    mode = radio("Αναζήτηση ", options=[option_keywords, option_tf_idf , option_lsi, option_extra])
 
     if mode == option_keywords:
         keywords.main(data_path)
@@ -22,6 +23,8 @@ def webapp_main():
         tf_idf.main(data_path)
     elif mode == option_lsi:
         lsi.main(data_path)
+    elif mode == option_extra:
+        extra.main(data_path)
 
 
 if __name__ == '__main__':
