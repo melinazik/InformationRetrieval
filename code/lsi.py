@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 dataPath = '../data/Proceedings_1989_2020_Processed.csv'
 # dataPath = '../data/Proceedings_Processed.csv'
+num_of_topics = 10;
 
 def main(dataPath):
     df = pd.read_csv(dataPath)
@@ -20,16 +21,16 @@ def main(dataPath):
     vect = TfidfVectorizer()
     tfidf_matrix = vect.fit_transform(processed_list)
 
-    lsa_model = TruncatedSVD(n_components=10, n_iter=10)
+    lsa_model = TruncatedSVD(n_components=num_of_topics, n_iter=num_of_topics)
 
     lsa_top = lsa_model.fit_transform(tfidf_matrix)
     l = lsa_top[0]
 
-    terms = vect.get_feature_names()
+    terms = vect.get_feature_names_out()
 
     for i, component in enumerate(lsa_model.components_):
         zipped = zip(terms, component)
-        terms_key = sorted(zipped, key = lambda t: t[1], reverse=True)[:10]
+        terms_key = sorted(zipped, key = lambda t: t[1], reverse=True)[:num_of_topics]
         terms_list = list(dict(terms_key).keys())
         print("Θεματική Περιοχή " + str(i)+": ", terms_list)
         print("\n")
@@ -39,7 +40,6 @@ def main(dataPath):
 
     #     print(lsa_model.components_.shape) # (no_of_topics * no_of_words)
     #     print(lsa_model.components_)
-
 
     end = time.time()
 
