@@ -103,8 +103,8 @@ def find_speeches(df, name, category, number_of_rows):
     return speeches, number_of_speeches
 
 
-def main(dataPath):
-    df = pd.read_csv(dataPath)
+def main(data_path):
+    df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
     start = time.time()
     put_markdown("# **Εύρεση keywords**")

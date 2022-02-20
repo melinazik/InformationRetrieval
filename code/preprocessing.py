@@ -74,10 +74,10 @@ def preprocessing():
 
    """
 
-    dataPath = '../data/Proceedings_1989_2020.csv'
+    data_path = '../data/Proceedings_1989_2020.csv'
     nlp = spacy.load("el_core_news_sm")
 
-    df = pd.read_csv(dataPath)
+    df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
 
     # set header of new csv file

@@ -5,11 +5,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from pywebio.output import put_text, put_markdown, put_html
 from pywebio.input import input, radio
 
-# dataPath = '../data/Proceedings_1989_2020_Processed.csv'
-# dataPath = '../data/Proceedings_Processed.csv'
+# data_path = '../data/Proceedings_1989_2020_Processed.csv'
+# data_path = '../data/Proceedings_Processed.csv'
 
-def main(dataPath):
-    df = pd.read_csv(dataPath)
+def main(data_path):
+    df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
     
     num_of_topics = int(input('Πόσες θεματικές περιοχές θέλεις να εμφανιστούν;', type='text'))
@@ -33,6 +33,7 @@ def main(dataPath):
     put_markdown('# **Αποτελέσματα**')  # print results
     put_markdown("# **Οι-" + str(num_of_topics) + " σημαντικότερες θεματικές περιοχές ** ")
 
+    # σημαντικές λέξεις
     for i, component in enumerate(lsa_model.components_):
         zipped = zip(terms, component)
         terms_key = sorted(zipped, key = lambda t: t[1], reverse=True)[:num_of_topics]
@@ -41,6 +42,7 @@ def main(dataPath):
 
     put_markdown("# **Οι διανυσματικές αναπαραστάσεις των σημαντικότερων θεματικών περιοχών ** ")
 
+    # διανυσματική αναπαράσταση
     for i, topic in enumerate(l):
         put_text("Θεματική Περιοχή ", i ," : ", topic * 100)
         put_text(lsa_model.components_)

@@ -5,8 +5,8 @@ import tf_idf
 import lsi
 import extra
 
-dataPath = '../data/Proceedings_1989_2020_Processed.csv'
-# dataPath = '../data/Proceedings_100000_Processed.csv'
+data_path = '../data/Proceedings_1989_2020_Processed.csv'
+# data_path = '../data/Proceedings_100000_Processed.csv'
 
 
 def webapp_main():
@@ -15,13 +15,13 @@ def webapp_main():
     option_lsi = 'Σημαντικότερες θεματικές περιοχές (LSI)'
 
     mode = radio("Αναζήτηση ", options=[option_keywords, option_tf_idf , option_lsi, '?'])
-    
+
     if mode == option_keywords:
-        keywords.main(dataPath)
+        keywords.main(data_path)
     elif mode == option_tf_idf:
-        tf_idf.main(dataPath)
+        tf_idf.main(data_path)
     elif mode == option_lsi:
-        lsi.main(dataPath)
+        lsi.main(data_path)
 
 
 if __name__ == '__main__':

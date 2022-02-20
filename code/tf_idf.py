@@ -24,8 +24,8 @@ class Member:
         print("Name", self.name, "Party", self.party, "Speeches", len(self.speeches))
 
 
-def main(dataPath):
-    df = pd.read_csv(dataPath)
+def main(data_path):
+    df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
     members = []
     members_names = []

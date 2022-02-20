@@ -3,12 +3,12 @@ import pandas as pd
 import keywords
 from pprint import pprint
 
-# dataPath = '../data/Proceedings_Processed.csv'
-# dataPath = '../data/Proceedings_1989_2020_Processed.csv'
+# data_path = '../data/Proceedings_Processed.csv'
+# data_path = '../data/Proceedings_1989_2020_Processed.csv'
 
 
-def main(dataPath):
-    df = pd.read_csv(dataPath)
+def main(data_path):
+    df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
     
     members = []
@@ -48,4 +48,4 @@ def main(dataPath):
     # # printing result
     # print(len(set(min_speech_keywords) & set(max_speech_keywords)))
 
-# main(dataPath)
+# main(data_path)
