@@ -2,6 +2,8 @@ from pywebio import start_server
 from pywebio.input import input, radio, select
 import keywords
 import tf_idf
+import lsi
+import extra
 
 dataPath = '../data/Proceedings_1989_2020_Processed.csv'
 # dataPath = '../data/Proceedings_100000_Processed.csv'
