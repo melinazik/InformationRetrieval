@@ -15,9 +15,9 @@ def main(data_path):
     df = pd.read_csv(data_path)
     number_of_rows = df.shape[0]
 
-    put_markdown = ('# **Επιλέξτε το διάστημα ετών που θέλετε να δείτε την μεταβολή των σημαντικότερων θεματικών.**')
-    start_year = int(input('Από: '))
-    end_year = int(input('Μέχρι: '))
+    put_markdown ('# **Επιλέξτε το διάστημα ετών που θέλετε να δείτε την μεταβολή των σημαντικότερων θεματικών (1989 - 2020).**')
+    start_year = int(input('Από (1989 -): '))
+    end_year = int(input('Μέχρι (- 2020): '))
 
     lsi = []
 
@@ -52,6 +52,7 @@ def main(data_path):
 
         speeches.clear()
 
+    end = time.time()
     x_coordinates = []
     y_coordinates = []
 
@@ -70,5 +71,4 @@ def main(data_path):
     html = fig.to_html(include_plotlyjs="require", full_html=False)
     put_html(html)  
 
-
-main(data_path)
+    put_text("Χρόνος εκτέλεσης: " + f"{round(end - start, 2)} sec.\n")
