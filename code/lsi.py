@@ -5,6 +5,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 dataPath = '../data/Proceedings_1989_2020_Processed.csv'
+# dataPath = '../data/Proceedings_Processed.csv'
 
 def main(dataPath):
     df = pd.read_csv(dataPath)
@@ -24,11 +25,20 @@ def main(dataPath):
     lsa_top = lsa_model.fit_transform(tfidf_matrix)
     l = lsa_top[0]
 
-    for i, topic in enumerate(l):
-        print("Θεματική Περιοχή ", i ," : ", topic * 100)
+    terms = vect.get_feature_names()
 
-        print(lsa_model.components_.shape) # (no_of_topics * no_of_words)
-        print(lsa_model.components_)
+    for i, component in enumerate(lsa_model.components_):
+        zipped = zip(terms, component)
+        terms_key = sorted(zipped, key = lambda t: t[1], reverse=True)[:10]
+        terms_list = list(dict(terms_key).keys())
+        print("Θεματική Περιοχή " + str(i)+": ", terms_list)
+        print("\n")
+
+    # for i, topic in enumerate(l):
+    #     print("Θεματική Περιοχή ", i ," : ", topic * 100)
+
+    #     print(lsa_model.components_.shape) # (no_of_topics * no_of_words)
+    #     print(lsa_model.components_)
 
 
     end = time.time()
