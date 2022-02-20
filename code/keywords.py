@@ -43,6 +43,7 @@ def extract_keywords(speech):
     dict_counter = Counter(list(result))
     return dict_counter
 
+
 def extract_only_keywords(speech):
     """
      Args:
@@ -52,6 +53,7 @@ def extract_only_keywords(speech):
     """
     result = re.sub("[^\w]", " ", speech).split()
     return result
+
 
 def find_speech(number_of_speech, number_of_rows, df):
     """
