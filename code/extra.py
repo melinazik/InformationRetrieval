@@ -5,16 +5,11 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from pywebio.output import put_text, put_markdown, put_html
 from pywebio.input import input, radio
+import matplotlib.pyplot as plt
+import plotly.express as px
 
 # data_path = '../data/Proceedings_Processed.csv'
 data_path = '../data/Proceedings_1989_2020_Processed.csv'
-
-def similarities(A, B):
-    A = A.lower()
-    B = B.lower()
-    list1 = A.split(" ")
-    list2 = B.split(" ")
-    return len(list(set(list1) & set(list2)))
 
 def main(data_path):
     df = pd.read_csv(data_path)
@@ -55,14 +50,25 @@ def main(data_path):
                 put_text(year)
                 put_text(terms_list)
 
-                # for i, topic in enumerate(l):
-                #     put_text("Θεματική Περιοχή ", i ," : ", topic * 100)
-                #     put_text(lsa_model.components_)
-                #     put_text("\n")
-
         speeches.clear()
 
+    x_coordinates = []
+    y_coordinates = []
+
+    y_coordinates.append(10.0)
     
-    # put_text(lsi)
+    for year in range(start_year, end_year + 1):
+        x_coordinates.append(year)
+
+    for i in range(end_year - start_year ):
+        y_coordinates.append(len(list(set(lsi[0]).intersection(lsi[i])))/2)   
+
+    print(x_coordinates)
+    print(y_coordinates)
+    fig = px.scatter(x=x_coordinates, y=y_coordinates, title="Ομοιότητες Μεταξύ Σημαντικών Θεματικών")
+
+    html = fig.to_html(include_plotlyjs="require", full_html=False)
+    put_html(html)  
+
 
 main(data_path)
