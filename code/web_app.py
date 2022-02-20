@@ -16,9 +16,9 @@ def webapp_main():
     mode = radio("Αναζήτηση ", options=[option_keywords, option_tf_idf , option_lsi, '?'])
     if mode == option_keywords:
         keywords.main(dataPath)
-    if mode == option_tf_idf:
+    elif mode == option_tf_idf:
         tf_idf.main(dataPath)
-    if mode == option_lsi:
+    elif mode == option_lsi:
         lsi.main(dataPath)
 
 
