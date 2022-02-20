@@ -77,7 +77,3 @@ def preprocessing(data_path):
                 writer.writerow([key, value])
     except IOError:
         print("I/O error")
-
-
-dataPath = '../data/Proceedings_1989_2020_Processed.csv'
-main(dataPath)
