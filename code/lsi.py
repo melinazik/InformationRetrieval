@@ -15,7 +15,7 @@ def main(data_path):
     num_of_topics = int(input('Πόσες θεματικές περιοχές θέλεις να εμφανιστούν;', type='text'))
 
     start = time.time()
-
+ 
     processed_list = []
     for s in range(number_of_rows):
         processed_list.append(str(df['speech'][s]))

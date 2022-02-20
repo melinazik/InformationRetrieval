@@ -5,7 +5,6 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from pywebio.output import put_text, put_markdown, put_html
 from pywebio.input import input, radio
-import matplotlib.pyplot as plt
 import plotly.express as px
 
 # data_path = '../data/Proceedings_Processed.csv'
@@ -28,9 +27,11 @@ def main(data_path):
         
         for i in range(number_of_rows):
 
+            # find all the speeches of a certain year
             if str(year) in str(df['sitting_date'][i]):
                 speeches.append(str(df['speech'][i]))
 
+        # calculate the lsi of the speeches
         if speeches:
             vect = TfidfVectorizer()
             tfidf_matrix = vect.fit_transform(speeches)
@@ -53,6 +54,8 @@ def main(data_path):
         speeches.clear()
 
     end = time.time()
+
+    # plot the graph of the similarities
     x_coordinates = []
     y_coordinates = []
 
@@ -64,8 +67,6 @@ def main(data_path):
     for i in range(end_year - start_year ):
         y_coordinates.append(len(list(set(lsi[0]).intersection(lsi[i])))/2)   
 
-    print(x_coordinates)
-    print(y_coordinates)
     fig = px.scatter(x=x_coordinates, y=y_coordinates, title="Ομοιότητες Μεταξύ Σημαντικών Θεματικών")
 
     html = fig.to_html(include_plotlyjs="require", full_html=False)
